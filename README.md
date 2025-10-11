@@ -1,5 +1,5 @@
 - 👋 Hi, I’m @buma-soft
-- 👀 I’m interested in Bicep, Terraform, Azure Devops, IC/CD
+- 👀 I’m interested in Bicep, Terraform, GCP, Azure Devops, IC/CD
 - 🌱 I’m currently learning Python
 - 💞️ I’m looking to collaborate on 
 - 📫 How to reach me ...
