@@ -54,7 +54,7 @@ stages:
   - stage: Deploy
     displayName: Deploy Infrastructure
     dependsOn: Validate
-    condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), eq(variables['Build.SourceBranch'], 'refs/heads/master')))
+    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'), or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), eq(variables['Build.SourceBranch'], 'refs/heads/master')))
     jobs:
       - deployment: DeployBicep
         displayName: Deploy to Azure
