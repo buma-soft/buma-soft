@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.47.16.16243",
-      "templateHash": "10075464101695183713"
+      "templateHash": "2758103851826491461"
     }
   },
   "parameters": {
@@ -131,7 +131,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.47.16.16243",
-              "templateHash": "2342312236369219500"
+              "templateHash": "17394725006012147375"
             }
           },
           "parameters": {
@@ -156,7 +156,10 @@
               "type": "string"
             },
             "sharePrefix": {
-              "type": "string"
+              "type": "string",
+              "metadata": {
+                "description": "Prefix is normalized to lowercase and hyphen-safe before file share creation."
+              }
             },
             "shareCount": {
               "type": "int"
@@ -169,6 +172,9 @@
               "type": "object",
               "defaultValue": {}
             }
+          },
+          "variables": {
+            "normalizedSharePrefix": "[replace(replace(toLower(parameters('sharePrefix')), '_', '-'), ' ', '-')]"
           },
           "resources": [
             {
@@ -225,7 +231,7 @@
               },
               "type": "Microsoft.Storage/storageAccounts/fileServices/shares",
               "apiVersion": "2023-05-01",
-              "name": "[format('{0}/{1}/{2}', parameters('storageAccountName'), 'default', format('{0}{1}', parameters('sharePrefix'), padLeft(string(add(range(0, parameters('shareCount'))[copyIndex()], 1)), 3, '0')))]",
+              "name": "[format('{0}/{1}/{2}', parameters('storageAccountName'), 'default', format('{0}{1}', variables('normalizedSharePrefix'), padLeft(string(add(range(0, parameters('shareCount'))[copyIndex()], 1)), 3, '0')))]",
               "properties": {
                 "enabledProtocols": "SMB",
                 "accessTier": "TransactionOptimized",
