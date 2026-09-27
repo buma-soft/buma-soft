@@ -5,8 +5,17 @@ param globalTags object = {
   managedBy: 'azure-devops'
 }
 
+type MigrationProject = {
+  name: string
+  description: string
+  storageMoverName: string
+  storageMoverDescription: string
+  storageAccountName: string
+  shareCount: int
+}
+
 @description('Each entry maps one migration project and one destination storage account. Use 5 entries with shareCount 60 to create 300 shares total.')
-param projects array = [
+param projects MigrationProject[] = [
   {
     name: 'project01'
     description: 'Migration project 01'

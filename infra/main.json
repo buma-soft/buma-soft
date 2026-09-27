@@ -1,11 +1,37 @@
 {
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "languageVersion": "2.0",
   "contentVersion": "1.0.0.0",
   "metadata": {
     "_generator": {
       "name": "bicep",
       "version": "0.47.16.16243",
-      "templateHash": "15532414061156743247"
+      "templateHash": "7859047536855110173"
+    }
+  },
+  "definitions": {
+    "MigrationProject": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "storageMoverName": {
+          "type": "string"
+        },
+        "storageMoverDescription": {
+          "type": "string"
+        },
+        "storageAccountName": {
+          "type": "string"
+        },
+        "shareCount": {
+          "type": "int"
+        }
+      }
     }
   },
   "parameters": {
@@ -26,6 +52,9 @@
     },
     "projects": {
       "type": "array",
+      "items": {
+        "$ref": "#/definitions/MigrationProject"
+      },
       "defaultValue": [
         {
           "name": "project01",
@@ -73,8 +102,8 @@
       }
     }
   },
-  "resources": [
-    {
+  "resources": {
+    "projectDeployments": {
       "copy": {
         "name": "projectDeployments",
         "count": "[length(parameters('projects'))]"
@@ -123,7 +152,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.47.16.16243",
-              "templateHash": "15902367923681198022"
+              "templateHash": "4746915965052129822"
             }
           },
           "parameters": {
@@ -148,11 +177,15 @@
               "type": "string"
             },
             "shareCount": {
-              "type": "int"
+              "type": "int",
+              "minValue": 1,
+              "maxValue": 5000
             },
             "shareQuotaGiB": {
               "type": "int",
-              "defaultValue": 1024
+              "defaultValue": 1024,
+              "minValue": 1,
+              "maxValue": 102400
             },
             "tags": {
               "type": "object",
@@ -195,7 +228,6 @@
                 "accessTier": "Hot",
                 "minimumTlsVersion": "TLS1_2",
                 "allowBlobPublicAccess": false,
-                "allowSharedKeyAccess": false,
                 "supportsHttpsTrafficOnly": true,
                 "largeFileSharesState": "Enabled"
               }
@@ -247,7 +279,7 @@
         }
       }
     }
-  ],
+  },
   "outputs": {
     "projectCount": {
       "type": "int",
@@ -264,14 +296,14 @@
       "type": "array",
       "copy": {
         "count": "[length(parameters('projects'))]",
-        "input": "[reference(resourceId('Microsoft.Resources/deployments', format('deploy-{0}', parameters('projects')[copyIndex()].name)), '2025-04-01').outputs.storageMoverResourceId.value]"
+        "input": "[reference(format('projectDeployments[{0}]', copyIndex())).outputs.storageMoverResourceId.value]"
       }
     },
     "storageAccountIds": {
       "type": "array",
       "copy": {
         "count": "[length(parameters('projects'))]",
-        "input": "[reference(resourceId('Microsoft.Resources/deployments', format('deploy-{0}', parameters('projects')[copyIndex()].name)), '2025-04-01').outputs.storageAccountResourceId.value]"
+        "input": "[reference(format('projectDeployments[{0}]', copyIndex())).outputs.storageAccountResourceId.value]"
       }
     }
   }

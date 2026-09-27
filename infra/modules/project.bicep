@@ -4,7 +4,11 @@ param storageMoverDescription string = ''
 param projectName string
 param projectDescription string = ''
 param storageAccountName string
+@minValue(1)
+@maxValue(5000)
 param shareCount int
+@minValue(1)
+@maxValue(102400)
 param shareQuotaGiB int = 1024
 param tags object = {}
 
@@ -41,7 +45,6 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2023-05-01' = {
     accessTier: 'Hot'
     minimumTlsVersion: 'TLS1_2'
     allowBlobPublicAccess: false
-    allowSharedKeyAccess: false
     supportsHttpsTrafficOnly: true
     largeFileSharesState: 'Enabled'
   }

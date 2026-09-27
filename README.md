@@ -39,7 +39,7 @@ If placeholder values are not replaced, the pipeline skips Azure CLI validation/
 Pipeline stages:
 
 1. **Validate**: Bicep build + `az deployment group what-if`
-2. **Deploy** (main/master branches only): `az deployment group create`
+2. **Deploy** (manual runs on main/master only): `az deployment group create`
 
 Feature branches run the **Validate** stage only.
 
