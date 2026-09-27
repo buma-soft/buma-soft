@@ -4,10 +4,10 @@ This repository now contains a Bicep + Azure DevOps pipeline baseline for migrat
 
 ## Files
 
-- `/home/runner/work/buma-soft/buma-soft/infra/main.bicep` - top-level deployment for 5 projects
-- `/home/runner/work/buma-soft/buma-soft/infra/modules/project.bicep` - reusable per-project module
-- `/home/runner/work/buma-soft/buma-soft/infra/parameters/prod.parameters.json` - sample production parameters
-- `/home/runner/work/buma-soft/buma-soft/azure-pipelines.yml` - Azure DevOps validation + deployment pipeline
+- `infra/main.bicep` - top-level deployment for 5 projects
+- `infra/modules/project.bicep` - reusable per-project module
+- `infra/parameters/prod.parameters.json` - sample production parameters
+- `azure-pipelines.yml` - Azure DevOps validation + deployment pipeline
 
 ## What gets deployed
 

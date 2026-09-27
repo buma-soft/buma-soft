@@ -81,10 +81,6 @@ module projectDeployments './modules/project.bicep' = [for (project, index) in p
 }]
 
 output projectCount int = length(projects)
-var totalShareCount = length(projects) == 0
-  ? 0
-  : length(projects) * int(projects[0].shareCount)
-
-output totalShareCount int = totalShareCount
+output shareCounts array = [for p in projects: int(p.shareCount)]
 output storageMoverIds array = [for (p, index) in projects: projectDeployments[index].outputs.storageMoverResourceId]
 output storageAccountIds array = [for (p, index) in projects: projectDeployments[index].outputs.storageAccountResourceId]

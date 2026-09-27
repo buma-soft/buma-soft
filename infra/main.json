@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.47.16.16243",
-      "templateHash": "5206441504091741360"
+      "templateHash": "2631532730287897680"
     }
   },
   "parameters": {
@@ -90,9 +90,6 @@
         "description": "List of appliance names (one per project). Appliances are registered separately and tagged here for traceability."
       }
     }
-  },
-  "variables": {
-    "totalShareCount": "[if(equals(length(parameters('projects')), 0), 0, mul(length(parameters('projects')), int(parameters('projects')[0].shareCount)))]"
   },
   "resources": [
     {
@@ -284,9 +281,12 @@
       "type": "int",
       "value": "[length(parameters('projects'))]"
     },
-    "totalShareCount": {
-      "type": "int",
-      "value": "[variables('totalShareCount')]"
+    "shareCounts": {
+      "type": "array",
+      "copy": {
+        "count": "[length(parameters('projects'))]",
+        "input": "[int(parameters('projects')[copyIndex()].shareCount)]"
+      }
     },
     "storageMoverIds": {
       "type": "array",
