@@ -22,8 +22,8 @@ Total in default configuration: **5 projects x 60 shares = 300 shares**.
 
 ## Appliance mapping
 
-Each project object includes its `applianceName` to keep the mapping explicit.
-Appliances are expected to be registered to Storage Mover separately.
+Appliances are expected to be registered and assigned to Storage Mover endpoints/jobs separately.
+This template focuses on project and destination Azure File Share infrastructure.
 
 ## Azure DevOps setup
 
@@ -32,6 +32,8 @@ Update pipeline variables in `azure-pipelines.yml`:
 - `azureServiceConnection`
 - `resourceGroupName`
 - `location` (optional override)
+
+If placeholder values are not replaced, the pipeline skips Azure CLI validation/deployment steps by design.
 
 Pipeline stages:
 

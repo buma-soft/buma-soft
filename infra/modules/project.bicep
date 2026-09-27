@@ -3,7 +3,6 @@ param storageMoverName string
 param storageMoverDescription string = ''
 param projectName string
 param projectDescription string = ''
-param applianceName string = ''
 param storageAccountName string
 param sharePrefix string
 param shareCount int
@@ -15,8 +14,6 @@ resource storageMover 'Microsoft.StorageMover/storageMovers@2024-07-01' = {
   location: location
   tags: union(tags, {
     project: projectName
-  }, length(applianceName) == 0 ? {} : {
-    assignedAppliance: applianceName
   })
   properties: {
     description: storageMoverDescription

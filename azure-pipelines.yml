@@ -28,8 +28,14 @@ stages:
         steps:
           - checkout: self
 
+          - script: |
+              echo "Skipping Azure validation because placeholder pipeline variables are still configured."
+            displayName: Placeholder guard notice
+            condition: or(eq(variables['azureServiceConnection'], 'replace-with-service-connection'), eq(variables['resourceGroupName'], 'replace-with-resource-group'))
+
           - task: AzureCLI@2
             displayName: Build Bicep template
+            condition: and(succeeded(), ne(variables['azureServiceConnection'], 'replace-with-service-connection'), ne(variables['resourceGroupName'], 'replace-with-resource-group'))
             inputs:
               azureSubscription: $(azureServiceConnection)
               scriptType: bash
@@ -40,6 +46,7 @@ stages:
 
           - task: AzureCLI@2
             displayName: What-If deployment
+            condition: and(succeeded(), ne(variables['azureServiceConnection'], 'replace-with-service-connection'), ne(variables['resourceGroupName'], 'replace-with-resource-group'))
             inputs:
               azureSubscription: $(azureServiceConnection)
               scriptType: bash
@@ -54,7 +61,7 @@ stages:
   - stage: Deploy
     displayName: Deploy Infrastructure
     dependsOn: Validate
-    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'), or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), eq(variables['Build.SourceBranch'], 'refs/heads/master')))
+    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'), ne(variables['azureServiceConnection'], 'replace-with-service-connection'), ne(variables['resourceGroupName'], 'replace-with-resource-group'), or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), eq(variables['Build.SourceBranch'], 'refs/heads/master')))
     jobs:
       - deployment: DeployBicep
         displayName: Deploy to Azure

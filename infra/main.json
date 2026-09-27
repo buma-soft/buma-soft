@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.47.16.16243",
-      "templateHash": "8591685712502659440"
+      "templateHash": "10075464101695183713"
     }
   },
   "parameters": {
@@ -29,7 +29,6 @@
       "defaultValue": [
         {
           "name": "project01",
-          "applianceName": "appliance01",
           "description": "Migration project 01",
           "storageMoverName": "stmv-project01",
           "storageMoverDescription": "Storage Mover for project 01",
@@ -39,7 +38,6 @@
         },
         {
           "name": "project02",
-          "applianceName": "appliance02",
           "description": "Migration project 02",
           "storageMoverName": "stmv-project02",
           "storageMoverDescription": "Storage Mover for project 02",
@@ -49,7 +47,6 @@
         },
         {
           "name": "project03",
-          "applianceName": "appliance03",
           "description": "Migration project 03",
           "storageMoverName": "stmv-project03",
           "storageMoverDescription": "Storage Mover for project 03",
@@ -59,7 +56,6 @@
         },
         {
           "name": "project04",
-          "applianceName": "appliance04",
           "description": "Migration project 04",
           "storageMoverName": "stmv-project04",
           "storageMoverDescription": "Storage Mover for project 04",
@@ -69,7 +65,6 @@
         },
         {
           "name": "project05",
-          "applianceName": "appliance05",
           "description": "Migration project 05",
           "storageMoverName": "stmv-project05",
           "storageMoverDescription": "Storage Mover for project 05",
@@ -79,7 +74,7 @@
         }
       ],
       "metadata": {
-        "description": "Each entry maps one migration project, one appliance, and one destination storage account. Use 5 entries with shareCount 60 to create 300 shares total."
+        "description": "Each entry maps one migration project and one destination storage account. Use 5 entries with shareCount 60 to create 300 shares total."
       }
     }
   },
@@ -113,9 +108,6 @@
           "projectDescription": {
             "value": "[parameters('projects')[copyIndex()].description]"
           },
-          "applianceName": {
-            "value": "[parameters('projects')[copyIndex()].applianceName]"
-          },
           "storageAccountName": {
             "value": "[parameters('projects')[copyIndex()].storageAccountName]"
           },
@@ -139,7 +131,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.47.16.16243",
-              "templateHash": "3376962631017025157"
+              "templateHash": "2342312236369219500"
             }
           },
           "parameters": {
@@ -157,10 +149,6 @@
               "type": "string"
             },
             "projectDescription": {
-              "type": "string",
-              "defaultValue": ""
-            },
-            "applianceName": {
               "type": "string",
               "defaultValue": ""
             },
@@ -188,7 +176,7 @@
               "apiVersion": "2024-07-01",
               "name": "[parameters('storageMoverName')]",
               "location": "[parameters('location')]",
-              "tags": "[union(parameters('tags'), createObject('project', parameters('projectName')), if(equals(length(parameters('applianceName')), 0), createObject(), createObject('assignedAppliance', parameters('applianceName'))))]",
+              "tags": "[union(parameters('tags'), createObject('project', parameters('projectName')))]",
               "properties": {
                 "description": "[parameters('storageMoverDescription')]"
               }
