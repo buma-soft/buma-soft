@@ -41,6 +41,8 @@ Pipeline stages:
 1. **Validate**: Bicep build + `az deployment group what-if`
 2. **Deploy** (main/master branches only): `az deployment group create`
 
+Feature branches run the **Validate** stage only.
+
 ## Deploy manually
 
 ```bash
