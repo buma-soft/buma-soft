@@ -45,6 +45,7 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2023-05-01' = {
     accessTier: 'Hot'
     minimumTlsVersion: 'TLS1_2'
     allowBlobPublicAccess: false
+    publicNetworkAccess: 'Disabled'
     largeFileSharesState: 'Enabled'
   }
 }

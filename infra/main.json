@@ -6,7 +6,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.47.16.16243",
-      "templateHash": "449623809263368124"
+      "templateHash": "10383188914094749533"
     }
   },
   "definitions": {
@@ -56,7 +56,7 @@
         "$ref": "#/definitions/MigrationProject"
       },
       "metadata": {
-        "description": "Each entry maps one migration project and one destination storage account. Use 5 entries with shareCount 60 to create 300 shares total."
+        "description": "Each entry defines one migration project, storage mover name, destination storage account, and number of SMB shares to create."
       }
     }
   },
@@ -110,7 +110,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.47.16.16243",
-              "templateHash": "3362474576505546871"
+              "templateHash": "10100972849981670485"
             }
           },
           "parameters": {
@@ -186,6 +186,7 @@
                 "accessTier": "Hot",
                 "minimumTlsVersion": "TLS1_2",
                 "allowBlobPublicAccess": false,
+                "publicNetworkAccess": "Disabled",
                 "largeFileSharesState": "Enabled"
               }
             },

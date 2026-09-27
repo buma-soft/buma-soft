@@ -14,7 +14,7 @@ type MigrationProject = {
   shareCount: int
 }
 
-@description('Each entry maps one migration project and one destination storage account. Use 5 entries with shareCount 60 to create 300 shares total.')
+@description('Each entry defines one migration project, storage mover name, destination storage account, and number of SMB shares to create.')
 param projects MigrationProject[]
 
 module projectDeployments './modules/project.bicep' = [for project in projects: {
