@@ -4,13 +4,9 @@ param storageMoverDescription string = ''
 param projectName string
 param projectDescription string = ''
 param storageAccountName string
-@description('Prefix is normalized to lowercase and hyphen-safe before file share creation.')
-param sharePrefix string
 param shareCount int
 param shareQuotaGiB int = 1024
 param tags object = {}
-
-var normalizedSharePrefix = replace(replace(toLower(sharePrefix), '_', '-'), ' ', '-')
 
 resource storageMover 'Microsoft.StorageMover/storageMovers@2024-07-01' = {
   name: storageMoverName
@@ -57,7 +53,7 @@ resource fileService 'Microsoft.Storage/storageAccounts/fileServices@2023-05-01'
 
 resource shares 'Microsoft.Storage/storageAccounts/fileServices/shares@2023-05-01' = [for i in range(0, shareCount): {
   parent: fileService
-  name: '${normalizedSharePrefix}${padLeft(string(i + 1), 3, '0')}'
+  name: 'share${padLeft(string(i + 1), 3, '0')}'
   properties: {
     enabledProtocols: 'SMB'
     accessTier: 'TransactionOptimized'

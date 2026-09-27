@@ -23,7 +23,8 @@ Total in default configuration: **5 projects x 60 shares = 300 shares**.
 ## Appliance mapping
 
 Appliances are expected to be registered and assigned to Storage Mover endpoints/jobs separately.
-This template focuses on project and destination Azure File Share infrastructure.
+This template does **not** create source endpoints, destination endpoints, appliance/agent bindings, or migration job definitions.
+It focuses on project and destination Azure File Share infrastructure.
 
 ## Azure DevOps setup
 
@@ -38,7 +39,7 @@ If placeholder values are not replaced, the pipeline skips Azure CLI validation/
 Pipeline stages:
 
 1. **Validate**: Bicep build + `az deployment group what-if`
-2. **Deploy** (main branch only): `az deployment group create`
+2. **Deploy** (main/master branches only): `az deployment group create`
 
 ## Deploy manually
 

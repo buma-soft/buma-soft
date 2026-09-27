@@ -13,7 +13,6 @@ param projects array = [
     storageMoverName: 'stmv-project01'
     storageMoverDescription: 'Storage Mover for project 01'
     storageAccountName: 'stmvp01files001'
-    sharePrefix: 'p01share'
     shareCount: 60
   }
   {
@@ -22,7 +21,6 @@ param projects array = [
     storageMoverName: 'stmv-project02'
     storageMoverDescription: 'Storage Mover for project 02'
     storageAccountName: 'stmvp02files001'
-    sharePrefix: 'p02share'
     shareCount: 60
   }
   {
@@ -31,7 +29,6 @@ param projects array = [
     storageMoverName: 'stmv-project03'
     storageMoverDescription: 'Storage Mover for project 03'
     storageAccountName: 'stmvp03files001'
-    sharePrefix: 'p03share'
     shareCount: 60
   }
   {
@@ -40,7 +37,6 @@ param projects array = [
     storageMoverName: 'stmv-project04'
     storageMoverDescription: 'Storage Mover for project 04'
     storageAccountName: 'stmvp04files001'
-    sharePrefix: 'p04share'
     shareCount: 60
   }
   {
@@ -49,7 +45,6 @@ param projects array = [
     storageMoverName: 'stmv-project05'
     storageMoverDescription: 'Storage Mover for project 05'
     storageAccountName: 'stmvp05files001'
-    sharePrefix: 'p05share'
     shareCount: 60
   }
 ]
@@ -63,7 +58,6 @@ module projectDeployments './modules/project.bicep' = [for project in projects: 
     projectName: project.name
     projectDescription: project.description
     storageAccountName: project.storageAccountName
-    sharePrefix: project.sharePrefix
     shareCount: int(project.shareCount)
     shareQuotaGiB: shareQuotaGiB
     tags: globalTags
