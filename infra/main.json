@@ -1,0 +1,306 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.47.16.16243",
+      "templateHash": "5206441504091741360"
+    }
+  },
+  "parameters": {
+    "location": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]"
+    },
+    "shareQuotaGiB": {
+      "type": "int",
+      "defaultValue": 1024
+    },
+    "globalTags": {
+      "type": "object",
+      "defaultValue": {
+        "workload": "storage-migration",
+        "managedBy": "azure-devops"
+      }
+    },
+    "projects": {
+      "type": "array",
+      "defaultValue": [
+        {
+          "name": "project01",
+          "description": "Migration project 01",
+          "storageMoverName": "stmv-project01",
+          "storageMoverDescription": "Storage Mover for project 01",
+          "storageAccountName": "stmvp01files001",
+          "sharePrefix": "p01share",
+          "shareCount": 60
+        },
+        {
+          "name": "project02",
+          "description": "Migration project 02",
+          "storageMoverName": "stmv-project02",
+          "storageMoverDescription": "Storage Mover for project 02",
+          "storageAccountName": "stmvp02files001",
+          "sharePrefix": "p02share",
+          "shareCount": 60
+        },
+        {
+          "name": "project03",
+          "description": "Migration project 03",
+          "storageMoverName": "stmv-project03",
+          "storageMoverDescription": "Storage Mover for project 03",
+          "storageAccountName": "stmvp03files001",
+          "sharePrefix": "p03share",
+          "shareCount": 60
+        },
+        {
+          "name": "project04",
+          "description": "Migration project 04",
+          "storageMoverName": "stmv-project04",
+          "storageMoverDescription": "Storage Mover for project 04",
+          "storageAccountName": "stmvp04files001",
+          "sharePrefix": "p04share",
+          "shareCount": 60
+        },
+        {
+          "name": "project05",
+          "description": "Migration project 05",
+          "storageMoverName": "stmv-project05",
+          "storageMoverDescription": "Storage Mover for project 05",
+          "storageAccountName": "stmvp05files001",
+          "sharePrefix": "p05share",
+          "shareCount": 60
+        }
+      ],
+      "metadata": {
+        "description": "Each entry maps one migration project and one destination storage account. Use 5 entries with shareCount 60 to create 300 shares total."
+      }
+    },
+    "appliances": {
+      "type": "array",
+      "defaultValue": [
+        "appliance01",
+        "appliance02",
+        "appliance03",
+        "appliance04",
+        "appliance05"
+      ],
+      "metadata": {
+        "description": "List of appliance names (one per project). Appliances are registered separately and tagged here for traceability."
+      }
+    }
+  },
+  "variables": {
+    "totalShareCount": "[if(equals(length(parameters('projects')), 0), 0, mul(length(parameters('projects')), int(parameters('projects')[0].shareCount)))]"
+  },
+  "resources": [
+    {
+      "copy": {
+        "name": "projectDeployments",
+        "count": "[length(parameters('projects'))]"
+      },
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2025-04-01",
+      "name": "[format('deploy-{0}', parameters('projects')[copyIndex()].name)]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "storageMoverName": {
+            "value": "[parameters('projects')[copyIndex()].storageMoverName]"
+          },
+          "storageMoverDescription": {
+            "value": "[parameters('projects')[copyIndex()].storageMoverDescription]"
+          },
+          "projectName": {
+            "value": "[parameters('projects')[copyIndex()].name]"
+          },
+          "projectDescription": {
+            "value": "[parameters('projects')[copyIndex()].description]"
+          },
+          "applianceName": "[if(greater(length(parameters('appliances')), copyIndex()), createObject('value', parameters('appliances')[copyIndex()]), createObject('value', ''))]",
+          "storageAccountName": {
+            "value": "[parameters('projects')[copyIndex()].storageAccountName]"
+          },
+          "sharePrefix": {
+            "value": "[parameters('projects')[copyIndex()].sharePrefix]"
+          },
+          "shareCount": {
+            "value": "[int(parameters('projects')[copyIndex()].shareCount)]"
+          },
+          "shareQuotaGiB": {
+            "value": "[parameters('shareQuotaGiB')]"
+          },
+          "tags": {
+            "value": "[parameters('globalTags')]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.47.16.16243",
+              "templateHash": "3376962631017025157"
+            }
+          },
+          "parameters": {
+            "location": {
+              "type": "string"
+            },
+            "storageMoverName": {
+              "type": "string"
+            },
+            "storageMoverDescription": {
+              "type": "string",
+              "defaultValue": ""
+            },
+            "projectName": {
+              "type": "string"
+            },
+            "projectDescription": {
+              "type": "string",
+              "defaultValue": ""
+            },
+            "applianceName": {
+              "type": "string",
+              "defaultValue": ""
+            },
+            "storageAccountName": {
+              "type": "string"
+            },
+            "sharePrefix": {
+              "type": "string"
+            },
+            "shareCount": {
+              "type": "int"
+            },
+            "shareQuotaGiB": {
+              "type": "int",
+              "defaultValue": 1024
+            },
+            "tags": {
+              "type": "object",
+              "defaultValue": {}
+            }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.StorageMover/storageMovers",
+              "apiVersion": "2024-07-01",
+              "name": "[parameters('storageMoverName')]",
+              "location": "[parameters('location')]",
+              "tags": "[union(parameters('tags'), createObject('project', parameters('projectName')), if(equals(length(parameters('applianceName')), 0), createObject(), createObject('assignedAppliance', parameters('applianceName'))))]",
+              "properties": {
+                "description": "[parameters('storageMoverDescription')]"
+              }
+            },
+            {
+              "type": "Microsoft.StorageMover/storageMovers/projects",
+              "apiVersion": "2024-07-01",
+              "name": "[format('{0}/{1}', parameters('storageMoverName'), parameters('projectName'))]",
+              "properties": {
+                "description": "[parameters('projectDescription')]"
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.StorageMover/storageMovers', parameters('storageMoverName'))]"
+              ]
+            },
+            {
+              "type": "Microsoft.Storage/storageAccounts",
+              "apiVersion": "2023-05-01",
+              "name": "[parameters('storageAccountName')]",
+              "location": "[parameters('location')]",
+              "tags": "[union(parameters('tags'), createObject('project', parameters('projectName')))]",
+              "sku": {
+                "name": "Standard_LRS"
+              },
+              "kind": "StorageV2",
+              "properties": {
+                "accessTier": "Hot",
+                "minimumTlsVersion": "TLS1_2",
+                "allowBlobPublicAccess": false,
+                "supportsHttpsTrafficOnly": true,
+                "largeFileSharesState": "Enabled"
+              }
+            },
+            {
+              "type": "Microsoft.Storage/storageAccounts/fileServices",
+              "apiVersion": "2023-05-01",
+              "name": "[format('{0}/{1}', parameters('storageAccountName'), 'default')]",
+              "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]"
+              ]
+            },
+            {
+              "copy": {
+                "name": "shares",
+                "count": "[length(range(0, parameters('shareCount')))]"
+              },
+              "type": "Microsoft.Storage/storageAccounts/fileServices/shares",
+              "apiVersion": "2023-05-01",
+              "name": "[format('{0}/{1}/{2}', parameters('storageAccountName'), 'default', format('{0}{1}', parameters('sharePrefix'), padLeft(string(add(range(0, parameters('shareCount'))[copyIndex()], 1)), 3, '0')))]",
+              "properties": {
+                "enabledProtocols": "SMB",
+                "accessTier": "TransactionOptimized",
+                "shareQuota": "[parameters('shareQuotaGiB')]"
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts/fileServices', parameters('storageAccountName'), 'default')]"
+              ]
+            }
+          ],
+          "outputs": {
+            "storageMoverResourceId": {
+              "type": "string",
+              "value": "[resourceId('Microsoft.StorageMover/storageMovers', parameters('storageMoverName'))]"
+            },
+            "projectResourceId": {
+              "type": "string",
+              "value": "[resourceId('Microsoft.StorageMover/storageMovers/projects', parameters('storageMoverName'), parameters('projectName'))]"
+            },
+            "storageAccountResourceId": {
+              "type": "string",
+              "value": "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]"
+            },
+            "createdShareCount": {
+              "type": "int",
+              "value": "[parameters('shareCount')]"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "outputs": {
+    "projectCount": {
+      "type": "int",
+      "value": "[length(parameters('projects'))]"
+    },
+    "totalShareCount": {
+      "type": "int",
+      "value": "[variables('totalShareCount')]"
+    },
+    "storageMoverIds": {
+      "type": "array",
+      "copy": {
+        "count": "[length(parameters('projects'))]",
+        "input": "[reference(resourceId('Microsoft.Resources/deployments', format('deploy-{0}', parameters('projects')[copyIndex()].name)), '2025-04-01').outputs.storageMoverResourceId.value]"
+      }
+    },
+    "storageAccountIds": {
+      "type": "array",
+      "copy": {
+        "count": "[length(parameters('projects'))]",
+        "input": "[reference(resourceId('Microsoft.Resources/deployments', format('deploy-{0}', parameters('projects')[copyIndex()].name)), '2025-04-01').outputs.storageAccountResourceId.value]"
+      }
+    }
+  }
+}

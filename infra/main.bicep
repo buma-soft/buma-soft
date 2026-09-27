@@ -1,0 +1,90 @@
+param location string = resourceGroup().location
+param shareQuotaGiB int = 1024
+param globalTags object = {
+  workload: 'storage-migration'
+  managedBy: 'azure-devops'
+}
+
+@description('Each entry maps one migration project and one destination storage account. Use 5 entries with shareCount 60 to create 300 shares total.')
+param projects array = [
+  {
+    name: 'project01'
+    description: 'Migration project 01'
+    storageMoverName: 'stmv-project01'
+    storageMoverDescription: 'Storage Mover for project 01'
+    storageAccountName: 'stmvp01files001'
+    sharePrefix: 'p01share'
+    shareCount: 60
+  }
+  {
+    name: 'project02'
+    description: 'Migration project 02'
+    storageMoverName: 'stmv-project02'
+    storageMoverDescription: 'Storage Mover for project 02'
+    storageAccountName: 'stmvp02files001'
+    sharePrefix: 'p02share'
+    shareCount: 60
+  }
+  {
+    name: 'project03'
+    description: 'Migration project 03'
+    storageMoverName: 'stmv-project03'
+    storageMoverDescription: 'Storage Mover for project 03'
+    storageAccountName: 'stmvp03files001'
+    sharePrefix: 'p03share'
+    shareCount: 60
+  }
+  {
+    name: 'project04'
+    description: 'Migration project 04'
+    storageMoverName: 'stmv-project04'
+    storageMoverDescription: 'Storage Mover for project 04'
+    storageAccountName: 'stmvp04files001'
+    sharePrefix: 'p04share'
+    shareCount: 60
+  }
+  {
+    name: 'project05'
+    description: 'Migration project 05'
+    storageMoverName: 'stmv-project05'
+    storageMoverDescription: 'Storage Mover for project 05'
+    storageAccountName: 'stmvp05files001'
+    sharePrefix: 'p05share'
+    shareCount: 60
+  }
+]
+
+@description('List of appliance names (one per project). Appliances are registered separately and tagged here for traceability.')
+param appliances array = [
+  'appliance01'
+  'appliance02'
+  'appliance03'
+  'appliance04'
+  'appliance05'
+]
+
+module projectDeployments './modules/project.bicep' = [for (project, index) in projects: {
+  name: 'deploy-${project.name}'
+  params: {
+    location: location
+    storageMoverName: project.storageMoverName
+    storageMoverDescription: project.storageMoverDescription
+    projectName: project.name
+    projectDescription: project.description
+    applianceName: length(appliances) > index ? appliances[index] : ''
+    storageAccountName: project.storageAccountName
+    sharePrefix: project.sharePrefix
+    shareCount: int(project.shareCount)
+    shareQuotaGiB: shareQuotaGiB
+    tags: globalTags
+  }
+}]
+
+output projectCount int = length(projects)
+var totalShareCount = length(projects) == 0
+  ? 0
+  : length(projects) * int(projects[0].shareCount)
+
+output totalShareCount int = totalShareCount
+output storageMoverIds array = [for (p, index) in projects: projectDeployments[index].outputs.storageMoverResourceId]
+output storageAccountIds array = [for (p, index) in projects: projectDeployments[index].outputs.storageAccountResourceId]
