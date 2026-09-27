@@ -6,7 +6,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.47.16.16243",
-      "templateHash": "10383188914094749533"
+      "templateHash": "13330743916961133208"
     }
   },
   "definitions": {
@@ -110,7 +110,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.47.16.16243",
-              "templateHash": "10100972849981670485"
+              "templateHash": "3362474576505546871"
             }
           },
           "parameters": {
@@ -186,7 +186,6 @@
                 "accessTier": "Hot",
                 "minimumTlsVersion": "TLS1_2",
                 "allowBlobPublicAccess": false,
-                "publicNetworkAccess": "Disabled",
                 "largeFileSharesState": "Enabled"
               }
             },
