@@ -5,7 +5,7 @@ param projectName string
 param projectDescription string = ''
 param storageAccountName string
 @minValue(1)
-@maxValue(5000)
+@maxValue(9999)
 param shareCount int
 @minValue(1)
 @maxValue(102400)
@@ -56,7 +56,7 @@ resource fileService 'Microsoft.Storage/storageAccounts/fileServices@2023-05-01'
 
 resource shares 'Microsoft.Storage/storageAccounts/fileServices/shares@2023-05-01' = [for i in range(0, shareCount): {
   parent: fileService
-  name: 'share${padLeft(string(i + 1), 3, '0')}'
+  name: 'share${padLeft(string(i + 1), 4, '0')}'
   properties: {
     enabledProtocols: 'SMB'
     accessTier: 'TransactionOptimized'

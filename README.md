@@ -6,7 +6,7 @@ This repository now contains a Bicep + Azure DevOps pipeline baseline for migrat
 
 - `infra/main.bicep` - top-level deployment for 5 projects
 - `infra/modules/project.bicep` - reusable per-project module
-- `infra/parameters/prod.parameters.json` - sample production parameters
+- `infra/parameters/prod.parameters.json` - required production parameters (includes 5 projects x 60 shares)
 - `azure-pipelines.yml` - Azure DevOps validation + deployment pipeline
 
 ## What gets deployed

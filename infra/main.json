@@ -6,7 +6,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.47.16.16243",
-      "templateHash": "6756898503282505148"
+      "templateHash": "449623809263368124"
     }
   },
   "definitions": {
@@ -55,48 +55,6 @@
       "items": {
         "$ref": "#/definitions/MigrationProject"
       },
-      "defaultValue": [
-        {
-          "name": "project01",
-          "description": "Migration project 01",
-          "storageMoverName": "stmv-project01",
-          "storageMoverDescription": "Storage Mover for project 01",
-          "storageAccountName": "stmvp01files001",
-          "shareCount": 60
-        },
-        {
-          "name": "project02",
-          "description": "Migration project 02",
-          "storageMoverName": "stmv-project02",
-          "storageMoverDescription": "Storage Mover for project 02",
-          "storageAccountName": "stmvp02files001",
-          "shareCount": 60
-        },
-        {
-          "name": "project03",
-          "description": "Migration project 03",
-          "storageMoverName": "stmv-project03",
-          "storageMoverDescription": "Storage Mover for project 03",
-          "storageAccountName": "stmvp03files001",
-          "shareCount": 60
-        },
-        {
-          "name": "project04",
-          "description": "Migration project 04",
-          "storageMoverName": "stmv-project04",
-          "storageMoverDescription": "Storage Mover for project 04",
-          "storageAccountName": "stmvp04files001",
-          "shareCount": 60
-        },
-        {
-          "name": "project05",
-          "description": "Migration project 05",
-          "storageMoverName": "stmv-project05",
-          "storageMoverDescription": "Storage Mover for project 05",
-          "storageAccountName": "stmvp05files001",
-          "shareCount": 60
-        }
-      ],
       "metadata": {
         "description": "Each entry maps one migration project and one destination storage account. Use 5 entries with shareCount 60 to create 300 shares total."
       }
@@ -152,7 +110,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.47.16.16243",
-              "templateHash": "4411642688628089509"
+              "templateHash": "3362474576505546871"
             }
           },
           "parameters": {
@@ -179,7 +137,7 @@
             "shareCount": {
               "type": "int",
               "minValue": 1,
-              "maxValue": 5000
+              "maxValue": 9999
             },
             "shareQuotaGiB": {
               "type": "int",
@@ -246,7 +204,7 @@
               },
               "type": "Microsoft.Storage/storageAccounts/fileServices/shares",
               "apiVersion": "2023-05-01",
-              "name": "[format('{0}/{1}/{2}', parameters('storageAccountName'), 'default', format('share{0}', padLeft(string(add(range(0, parameters('shareCount'))[copyIndex()], 1)), 3, '0')))]",
+              "name": "[format('{0}/{1}/{2}', parameters('storageAccountName'), 'default', format('share{0}', padLeft(string(add(range(0, parameters('shareCount'))[copyIndex()], 1)), 4, '0')))]",
               "properties": {
                 "enabledProtocols": "SMB",
                 "accessTier": "TransactionOptimized",

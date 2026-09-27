@@ -15,48 +15,7 @@ type MigrationProject = {
 }
 
 @description('Each entry maps one migration project and one destination storage account. Use 5 entries with shareCount 60 to create 300 shares total.')
-param projects MigrationProject[] = [
-  {
-    name: 'project01'
-    description: 'Migration project 01'
-    storageMoverName: 'stmv-project01'
-    storageMoverDescription: 'Storage Mover for project 01'
-    storageAccountName: 'stmvp01files001'
-    shareCount: 60
-  }
-  {
-    name: 'project02'
-    description: 'Migration project 02'
-    storageMoverName: 'stmv-project02'
-    storageMoverDescription: 'Storage Mover for project 02'
-    storageAccountName: 'stmvp02files001'
-    shareCount: 60
-  }
-  {
-    name: 'project03'
-    description: 'Migration project 03'
-    storageMoverName: 'stmv-project03'
-    storageMoverDescription: 'Storage Mover for project 03'
-    storageAccountName: 'stmvp03files001'
-    shareCount: 60
-  }
-  {
-    name: 'project04'
-    description: 'Migration project 04'
-    storageMoverName: 'stmv-project04'
-    storageMoverDescription: 'Storage Mover for project 04'
-    storageAccountName: 'stmvp04files001'
-    shareCount: 60
-  }
-  {
-    name: 'project05'
-    description: 'Migration project 05'
-    storageMoverName: 'stmv-project05'
-    storageMoverDescription: 'Storage Mover for project 05'
-    storageAccountName: 'stmvp05files001'
-    shareCount: 60
-  }
-]
+param projects MigrationProject[]
 
 module projectDeployments './modules/project.bicep' = [for project in projects: {
   name: 'deploy-${project.name}'
