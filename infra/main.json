@@ -6,7 +6,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.47.16.16243",
-      "templateHash": "11975341784104803461"
+      "templateHash": "10620227150389771953"
     }
   },
   "definitions": {
@@ -31,7 +31,7 @@
         "shareCount": {
           "type": "int",
           "minValue": 1,
-          "maxValue": 9999
+          "maxValue": 250
         }
       }
     }
@@ -115,7 +115,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.47.16.16243",
-              "templateHash": "7870176819580670706"
+              "templateHash": "7730581132793878834"
             }
           },
           "parameters": {
@@ -140,7 +140,7 @@
             "shareCount": {
               "type": "int",
               "minValue": 1,
-              "maxValue": 9999
+              "maxValue": 250
             },
             "shareQuotaGiB": {
               "type": "int",

@@ -14,7 +14,7 @@ type MigrationProject = {
   storageMoverDescription: string
   storageAccountName: string
   @minValue(1)
-  @maxValue(9999)
+  @maxValue(250)
   shareCount: int
 }
 
