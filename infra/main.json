@@ -6,7 +6,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.47.16.16243",
-      "templateHash": "16544145914025937539"
+      "templateHash": "18170122434623465132"
     }
   },
   "definitions": {
@@ -31,7 +31,7 @@
         "shareCount": {
           "type": "int",
           "minValue": 1,
-          "maxValue": 9999
+          "maxValue": 9998
         }
       }
     }
@@ -115,7 +115,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.47.16.16243",
-              "templateHash": "3362474576505546871"
+              "templateHash": "15689567473467026242"
             }
           },
           "parameters": {
@@ -126,15 +126,13 @@
               "type": "string"
             },
             "storageMoverDescription": {
-              "type": "string",
-              "defaultValue": ""
+              "type": "string"
             },
             "projectName": {
               "type": "string"
             },
             "projectDescription": {
-              "type": "string",
-              "defaultValue": ""
+              "type": "string"
             },
             "storageAccountName": {
               "type": "string"
@@ -142,7 +140,7 @@
             "shareCount": {
               "type": "int",
               "minValue": 1,
-              "maxValue": 9999
+              "maxValue": 9998
             },
             "shareQuotaGiB": {
               "type": "int",

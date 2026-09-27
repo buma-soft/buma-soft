@@ -1,11 +1,11 @@
 param location string
 param storageMoverName string
-param storageMoverDescription string = ''
+param storageMoverDescription string
 param projectName string
-param projectDescription string = ''
+param projectDescription string
 param storageAccountName string
 @minValue(1)
-@maxValue(9999)
+@maxValue(9998)
 param shareCount int
 @minValue(1)
 @maxValue(102400)
