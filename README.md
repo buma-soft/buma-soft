@@ -1,6 +1,6 @@
 # Azure Storage Mover migration scaffolding
 
-This repository now contains a Bicep + Azure DevOps pipeline baseline for migrating **300 SMB shares** with **Azure Storage Mover**, split across **5 projects**. Appliance registration/assignment is handled outside this template.
+This repository now contains a Bicep + Azure DevOps pipeline baseline for migrating SMB shares with Azure Storage Mover. The included production parameter file is preconfigured for **300 SMB shares** split across **5 projects**. Appliance registration/assignment is handled outside this template.
 
 ## Files
 
