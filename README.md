@@ -22,7 +22,7 @@ Total in default configuration: **5 projects x 60 shares = 300 shares**.
 
 ## Appliance mapping
 
-The `appliances` parameter maps appliance names by project index for traceability tags.
+Each project object includes its `applianceName` to keep the mapping explicit.
 Appliances are expected to be registered to Storage Mover separately.
 
 ## Azure DevOps setup
@@ -44,5 +44,5 @@ Pipeline stages:
 az deployment group create \
   --resource-group <resource-group> \
   --template-file infra/main.bicep \
-  --parameters @infra/parameters/prod.parameters.json
+  --parameters @infra/parameters/prod.parameters.json location=<location>
 ```

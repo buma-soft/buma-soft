@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.47.16.16243",
-      "templateHash": "2631532730287897680"
+      "templateHash": "8591685712502659440"
     }
   },
   "parameters": {
@@ -29,6 +29,7 @@
       "defaultValue": [
         {
           "name": "project01",
+          "applianceName": "appliance01",
           "description": "Migration project 01",
           "storageMoverName": "stmv-project01",
           "storageMoverDescription": "Storage Mover for project 01",
@@ -38,6 +39,7 @@
         },
         {
           "name": "project02",
+          "applianceName": "appliance02",
           "description": "Migration project 02",
           "storageMoverName": "stmv-project02",
           "storageMoverDescription": "Storage Mover for project 02",
@@ -47,6 +49,7 @@
         },
         {
           "name": "project03",
+          "applianceName": "appliance03",
           "description": "Migration project 03",
           "storageMoverName": "stmv-project03",
           "storageMoverDescription": "Storage Mover for project 03",
@@ -56,6 +59,7 @@
         },
         {
           "name": "project04",
+          "applianceName": "appliance04",
           "description": "Migration project 04",
           "storageMoverName": "stmv-project04",
           "storageMoverDescription": "Storage Mover for project 04",
@@ -65,6 +69,7 @@
         },
         {
           "name": "project05",
+          "applianceName": "appliance05",
           "description": "Migration project 05",
           "storageMoverName": "stmv-project05",
           "storageMoverDescription": "Storage Mover for project 05",
@@ -74,20 +79,7 @@
         }
       ],
       "metadata": {
-        "description": "Each entry maps one migration project and one destination storage account. Use 5 entries with shareCount 60 to create 300 shares total."
-      }
-    },
-    "appliances": {
-      "type": "array",
-      "defaultValue": [
-        "appliance01",
-        "appliance02",
-        "appliance03",
-        "appliance04",
-        "appliance05"
-      ],
-      "metadata": {
-        "description": "List of appliance names (one per project). Appliances are registered separately and tagged here for traceability."
+        "description": "Each entry maps one migration project, one appliance, and one destination storage account. Use 5 entries with shareCount 60 to create 300 shares total."
       }
     }
   },
@@ -121,7 +113,9 @@
           "projectDescription": {
             "value": "[parameters('projects')[copyIndex()].description]"
           },
-          "applianceName": "[if(greater(length(parameters('appliances')), copyIndex()), createObject('value', parameters('appliances')[copyIndex()]), createObject('value', ''))]",
+          "applianceName": {
+            "value": "[parameters('projects')[copyIndex()].applianceName]"
+          },
           "storageAccountName": {
             "value": "[parameters('projects')[copyIndex()].storageAccountName]"
           },

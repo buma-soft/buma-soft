@@ -5,10 +5,11 @@ param globalTags object = {
   managedBy: 'azure-devops'
 }
 
-@description('Each entry maps one migration project and one destination storage account. Use 5 entries with shareCount 60 to create 300 shares total.')
+@description('Each entry maps one migration project, one appliance, and one destination storage account. Use 5 entries with shareCount 60 to create 300 shares total.')
 param projects array = [
   {
     name: 'project01'
+    applianceName: 'appliance01'
     description: 'Migration project 01'
     storageMoverName: 'stmv-project01'
     storageMoverDescription: 'Storage Mover for project 01'
@@ -18,6 +19,7 @@ param projects array = [
   }
   {
     name: 'project02'
+    applianceName: 'appliance02'
     description: 'Migration project 02'
     storageMoverName: 'stmv-project02'
     storageMoverDescription: 'Storage Mover for project 02'
@@ -27,6 +29,7 @@ param projects array = [
   }
   {
     name: 'project03'
+    applianceName: 'appliance03'
     description: 'Migration project 03'
     storageMoverName: 'stmv-project03'
     storageMoverDescription: 'Storage Mover for project 03'
@@ -36,6 +39,7 @@ param projects array = [
   }
   {
     name: 'project04'
+    applianceName: 'appliance04'
     description: 'Migration project 04'
     storageMoverName: 'stmv-project04'
     storageMoverDescription: 'Storage Mover for project 04'
@@ -45,6 +49,7 @@ param projects array = [
   }
   {
     name: 'project05'
+    applianceName: 'appliance05'
     description: 'Migration project 05'
     storageMoverName: 'stmv-project05'
     storageMoverDescription: 'Storage Mover for project 05'
@@ -52,15 +57,6 @@ param projects array = [
     sharePrefix: 'p05share'
     shareCount: 60
   }
-]
-
-@description('List of appliance names (one per project). Appliances are registered separately and tagged here for traceability.')
-param appliances array = [
-  'appliance01'
-  'appliance02'
-  'appliance03'
-  'appliance04'
-  'appliance05'
 ]
 
 module projectDeployments './modules/project.bicep' = [for (project, index) in projects: {
@@ -71,7 +67,7 @@ module projectDeployments './modules/project.bicep' = [for (project, index) in p
     storageMoverDescription: project.storageMoverDescription
     projectName: project.name
     projectDescription: project.description
-    applianceName: length(appliances) > index ? appliances[index] : ''
+    applianceName: project.applianceName
     storageAccountName: project.storageAccountName
     sharePrefix: project.sharePrefix
     shareCount: int(project.shareCount)
