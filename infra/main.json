@@ -6,7 +6,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.47.16.16243",
-      "templateHash": "7859047536855110173"
+      "templateHash": "6756898503282505148"
     }
   },
   "definitions": {
@@ -136,7 +136,7 @@
             "value": "[parameters('projects')[copyIndex()].storageAccountName]"
           },
           "shareCount": {
-            "value": "[int(parameters('projects')[copyIndex()].shareCount)]"
+            "value": "[parameters('projects')[copyIndex()].shareCount]"
           },
           "shareQuotaGiB": {
             "value": "[parameters('shareQuotaGiB')]"
@@ -152,7 +152,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.47.16.16243",
-              "templateHash": "4746915965052129822"
+              "templateHash": "4411642688628089509"
             }
           },
           "parameters": {
@@ -228,7 +228,6 @@
                 "accessTier": "Hot",
                 "minimumTlsVersion": "TLS1_2",
                 "allowBlobPublicAccess": false,
-                "supportsHttpsTrafficOnly": true,
                 "largeFileSharesState": "Enabled"
               }
             },

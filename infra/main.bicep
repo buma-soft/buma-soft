@@ -67,7 +67,7 @@ module projectDeployments './modules/project.bicep' = [for project in projects: 
     projectName: project.name
     projectDescription: project.description
     storageAccountName: project.storageAccountName
-    shareCount: int(project.shareCount)
+    shareCount: project.shareCount
     shareQuotaGiB: shareQuotaGiB
     tags: globalTags
   }
