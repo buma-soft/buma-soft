@@ -1,4 +1,6 @@
 param location string = resourceGroup().location
+@minValue(1)
+@maxValue(102400)
 param shareQuotaGiB int = 1024
 param globalTags object = {
   workload: 'storage-migration'
@@ -11,10 +13,13 @@ type MigrationProject = {
   storageMoverName: string
   storageMoverDescription: string
   storageAccountName: string
+  @minValue(1)
+  @maxValue(9999)
   shareCount: int
 }
 
 @description('Each entry defines one migration project, storage mover name, destination storage account, and number of SMB shares to create.')
+@minLength(1)
 param projects MigrationProject[]
 
 module projectDeployments './modules/project.bicep' = [for project in projects: {

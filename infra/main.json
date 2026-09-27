@@ -6,7 +6,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.47.16.16243",
-      "templateHash": "13330743916961133208"
+      "templateHash": "16544145914025937539"
     }
   },
   "definitions": {
@@ -29,7 +29,9 @@
           "type": "string"
         },
         "shareCount": {
-          "type": "int"
+          "type": "int",
+          "minValue": 1,
+          "maxValue": 9999
         }
       }
     }
@@ -41,7 +43,9 @@
     },
     "shareQuotaGiB": {
       "type": "int",
-      "defaultValue": 1024
+      "defaultValue": 1024,
+      "minValue": 1,
+      "maxValue": 102400
     },
     "globalTags": {
       "type": "object",
@@ -55,6 +59,7 @@
       "items": {
         "$ref": "#/definitions/MigrationProject"
       },
+      "minLength": 1,
       "metadata": {
         "description": "Each entry defines one migration project, storage mover name, destination storage account, and number of SMB shares to create."
       }
