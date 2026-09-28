@@ -1,0 +1,56 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "location": {
+      "value": "westeurope"
+    },
+    "shareQuotaGiB": {
+      "value": 1024
+    },
+    "projects": {
+      "value": [
+        {
+          "name": "project01",
+          "description": "Migration project 01",
+          "storageMoverName": "stmv-project01",
+          "storageMoverDescription": "Storage Mover for project 01",
+          "storageAccountName": "stmvp01files001",
+          "shareCount": 60
+        },
+        {
+          "name": "project02",
+          "description": "Migration project 02",
+          "storageMoverName": "stmv-project02",
+          "storageMoverDescription": "Storage Mover for project 02",
+          "storageAccountName": "stmvp02files001",
+          "shareCount": 60
+        },
+        {
+          "name": "project03",
+          "description": "Migration project 03",
+          "storageMoverName": "stmv-project03",
+          "storageMoverDescription": "Storage Mover for project 03",
+          "storageAccountName": "stmvp03files001",
+          "shareCount": 60
+        },
+        {
+          "name": "project04",
+          "description": "Migration project 04",
+          "storageMoverName": "stmv-project04",
+          "storageMoverDescription": "Storage Mover for project 04",
+          "storageAccountName": "stmvp04files001",
+          "shareCount": 60
+        },
+        {
+          "name": "project05",
+          "description": "Migration project 05",
+          "storageMoverName": "stmv-project05",
+          "storageMoverDescription": "Storage Mover for project 05",
+          "storageAccountName": "stmvp05files001",
+          "shareCount": 60
+        }
+      ]
+    }
+  }
+}

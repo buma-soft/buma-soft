@@ -1,0 +1,86 @@
+trigger:
+  branches:
+    include:
+      - main
+      - master
+      - feature/*
+
+pr:
+  branches:
+    include:
+      - '*'
+
+variables:
+  azureServiceConnection: 'replace-with-service-connection'
+  resourceGroupName: 'replace-with-resource-group'
+  location: 'westeurope'
+  templateFile: 'infra/main.bicep'
+  parametersFile: 'infra/parameters/prod.parameters.json'
+
+stages:
+  - stage: Validate
+    displayName: Validate Bicep
+    jobs:
+      - job: WhatIf
+        displayName: Build and What-If
+        pool:
+          vmImage: ubuntu-latest
+        steps:
+          - checkout: self
+
+          - script: |
+              echo "Skipping Azure validation because placeholder pipeline variables are still configured."
+            displayName: Placeholder guard notice
+            condition: or(eq(variables['azureServiceConnection'], 'replace-with-service-connection'), eq(variables['resourceGroupName'], 'replace-with-resource-group'))
+
+          - task: AzureCLI@2
+            displayName: Build Bicep template
+            condition: and(succeeded(), ne(variables['azureServiceConnection'], 'replace-with-service-connection'), ne(variables['resourceGroupName'], 'replace-with-resource-group'))
+            inputs:
+              azureSubscription: $(azureServiceConnection)
+              scriptType: bash
+              scriptLocation: inlineScript
+              inlineScript: |
+                set -euo pipefail
+                az bicep build --file "$(templateFile)"
+
+          - task: AzureCLI@2
+            displayName: What-If deployment
+            condition: and(succeeded(), ne(variables['azureServiceConnection'], 'replace-with-service-connection'), ne(variables['resourceGroupName'], 'replace-with-resource-group'))
+            inputs:
+              azureSubscription: $(azureServiceConnection)
+              scriptType: bash
+              scriptLocation: inlineScript
+              inlineScript: |
+                set -euo pipefail
+                az deployment group what-if \
+                  --resource-group "$(resourceGroupName)" \
+                  --template-file "$(templateFile)" \
+                  --parameters "@$(parametersFile)" location="$(location)"
+
+  - stage: Deploy
+    displayName: Deploy Infrastructure
+    dependsOn: Validate
+    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'), ne(variables['azureServiceConnection'], 'replace-with-service-connection'), ne(variables['resourceGroupName'], 'replace-with-resource-group'), or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), eq(variables['Build.SourceBranch'], 'refs/heads/master')))
+    jobs:
+      - deployment: DeployBicep
+        displayName: Deploy to Azure
+        environment: prod
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - checkout: self
+
+                - task: AzureCLI@2
+                  displayName: Deploy Bicep template
+                  inputs:
+                    azureSubscription: $(azureServiceConnection)
+                    scriptType: bash
+                    scriptLocation: inlineScript
+                    inlineScript: |
+                      set -euo pipefail
+                      az deployment group create \
+                        --resource-group "$(resourceGroupName)" \
+                        --template-file "$(templateFile)" \
+                        --parameters "@$(parametersFile)" location="$(location)"
